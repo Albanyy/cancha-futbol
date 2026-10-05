@@ -2,6 +2,9 @@ package com.deporitivo_cancha.demo.entity;
 
 import java.math.BigDecimal;
 
+import com.deporitivo_cancha.demo.enums.EstadoCancha;
+import com.deporitivo_cancha.demo.enums.TipoCancha;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -2,52 +2,56 @@ package com.deporitivo_cancha.demo.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.deporitivo_cancha.demo.enums.EstadoPago;
+import com.deporitivo_cancha.demo.enums.MetodoPago;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table (name = "Factura")
+@Table(name = "facturas")
 public class Factura {
-    
-    @Id 
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column (name = "id")
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne 
-    @JoinColumn (name = "cliente_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    @OneToMany 
-    @JoinColumn (name = "reserva_id")
-    private Reserva reserva;
+    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reserva> reservas;
 
-    @Column (name = "fechaEmision")
+    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetalleFactura> detalles;
+
+    @Column(name = "fecha_emision", nullable = false)
     private LocalDateTime fechaEmision;
 
-    @Column (name = "montoSubtotal")
+    @Column(name = "monto_subtotal", nullable = false, precision = 10, scale = 2)
     private BigDecimal montoSubtotal;
 
-    @Column (name = "impuesto")
+    @Column(name = "impuesto", nullable = false, precision = 10, scale = 2)
     private BigDecimal impuesto;
 
-    @Column (name = "montoTotal")
+    @Column(name = "monto_total", nullable = false, precision = 10, scale = 2)
     private BigDecimal montoTotal;
 
-    @Column (name = "metodoPago")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "metodo_pago", nullable = false)
     private MetodoPago metodoPago;
 
-    @Column (name = "estadoPago")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado_pago", nullable = false)
     private EstadoPago estadoPago;
 }

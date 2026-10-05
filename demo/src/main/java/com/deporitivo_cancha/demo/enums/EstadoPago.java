@@ -1,4 +1,4 @@
-package com.deporitivo_cancha.demo.entity;
+package com.deporitivo_cancha.demo.enums;
 
 public enum EstadoPago {
     PAGADO,
